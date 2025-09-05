@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practica 5</title>
+    <link href="https://fonts.googleapis.com/css?family=SF+Pro+Display:400,600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f6fa 0%, #e5e9f2 100%);
+            font-family: 'SF Pro Display', Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+        }
+        .playlist-container {
+            max-width: 1100px;
+            margin: 40px auto 0 auto;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            padding: 40px 32px 32px 32px;
+        }
+        .playlist-header {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        .playlist-cover {
+            width: 180px;
+            height: 180px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        .playlist-info {
+            flex: 1;
+        }
+        .playlist-title {
+            font-size: 48px;
+            font-weight: 600;
+            color: #111;
+            margin: 0 0 12px 0;
+            letter-spacing: -1px;
+        }
+        .playlist-desc {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        .playlist-meta {
+            font-size: 15px;
+            color: #888;
+        }
+        .tracks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+        .track-card {
+            background: #f7f7fa;
+            border-radius: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 18px 12px 12px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: box-shadow 0.2s;
+        }
+        .track-card:hover {
+            box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+        }
+        .track-video {
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .audio-section {
+            background: #f7f7fa;
+            border-radius: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 24px;
+            text-align: center;
+            margin-top: 24px;
+        }
+        .audio-section h2 {
+            color: #111;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-family: 'SF Pro Display', Arial, Helvetica, sans-serif;
+        }
+        audio {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            outline: none;
+        }
+        @media (max-width: 700px) {
+            .playlist-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+            .playlist-cover {
+                width: 120px;
+                height: 120px;
+                font-size: 36px;
+            }
+            .playlist-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="playlist-container">
+        <div class="playlist-header">
+            <div class="playlist-cover">
+                <span>🎵</span>
+            </div>
+            <div class="playlist-info">
+                <h1 class="playlist-title">Mi Playlist</h1>
+                <div class="playlist-desc">Lista de canciones de entrenamiento.</div>
+                <div class="playlist-meta">10 canciones &middot; Actualizado 05/sep/2025</div>
+            </div>
+        </div>
+        <div class="tracks-grid">
+            <div class="track-card">
+                <iframe class="track-video" width="280" height="158" src="https://www.youtube.com/embed/X7aF3nZOS98?si=oIJLJHg7eFzGQBad" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="track-card">
+                <iframe class="track-video" width="280" height="158" src="https://www.youtube.com/embed/PJWHAiDARMQ?si=OnMao-oaMVVpBSZR" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="track-card">
+                <iframe class="track-video" width="280" height="158" src="https://www.youtube.com/embed/sFIXA0zALWU?si=vHpxiVwLynbxkeKB" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="track-card">
+                <iframe class="track-video" width="280" height="158" src="https://www.youtube.com/embed/sFIXA0zALWU?si=vHpxiVwLynbxkeKB" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="track-card">
+                <iframe class="track-video" width="280" height="158" src="https://www.youtube.com/embed/ApXoWvfEYVU?si=Gd9j53-S7zbHOgb_" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="track-card">
+                <iframe class="track-video" width="280" height="158" src="https://www.youtube.com/embed/UceaB4D0jpo?si=gnAsfVlfr9olo7Uj" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="track-card">
+                <iframe class="track-video" width="280" height="158" src="https://www.youtube.com/embed/UhbixyxgsiU?si=K01wkVvUPa0_-xjY" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="track-card">
+                <iframe class="track-video" width="280" height="158" src="https://www.youtube.com/embed/2IH8tNQAzSs?si=AIOnx-LuvdPMI34I" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="track-card">
+                <iframe class="track-video" width="280" height="158" src="https://www.youtube.com/embed/JQbjS0_ZfJ0?si=3piuDUGg1kzK7SVT" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <div class="track-card">
+                <iframe class="track-video" width="280" height="158" src="https://www.youtube.com/embed/HfWLgELllZs?si=G0KUYyZ21v9AHTcZ" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="audio-section">
+            <h2>Adudio para recordar porque ir al gym</h2>
+            <audio controls>
+                <source src="audios/audioMisa.mp3" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+            </audio>
+        </div>
+    </div>
+</body>
+</html>
