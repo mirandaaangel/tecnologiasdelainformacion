@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inmuebles León MX — Asesores Inmobiliarios</title>
+  <meta name="description" content="Inmuebles León MX - Inventario de propiedades y asesores inmobiliarios en León, Guanajuato." />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <style>
+    :root{
+      --bg:#f7f8fb;
+      --primary:#163a66; /* azul oscuro */
+      --accent:#c79a2f;  /* dorado */
+      --muted:#6b7280;
+      --card:#ffffff;
+      --radius:14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#111}
+    a{color:inherit;text-decoration:none}
+
+    /* Header / Hero */
+    header.hero{background-image:linear-gradient(rgba(22,58,102,0.65), rgba(22,58,102,0.25)), url('https://images.unsplash.com/photo-1542204165-1e4fbb6f7d34?auto=format&fit=crop&w=1600&q=70');background-size:cover;background-position:center;color:#fff;padding:64px 20px;border-bottom-left-radius:24px;border-bottom-right-radius:24px}
+    .container{max-width:1100px;margin:0 auto}
+    .hero-row{display:flex;gap:24px;align-items:center}
+    .hero-text{flex:1}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand h1{margin:0;font-size:28px}
+    .tagline{font-size:20px;margin-top:6px;opacity:0.95}
+    .cta{margin-top:18px}
+    .btn{background:var(--accent);color:#fff;padding:12px 18px;border-radius:10px;font-weight:600;border:none;cursor:pointer}
+    .btn.secondary{background:transparent;border:2px solid rgba(255,255,255,0.2);}
+
+    /* About */
+    section.about{padding:36px 20px}
+    .about-card{background:linear-gradient(180deg,#fff, #fbfdff);padding:20px;border-radius:var(--radius);box-shadow:0 6px 20px rgba(16,24,40,0.06);display:flex;gap:20px;align-items:center}
+    .about-text{flex:1}
+    .team-photo{width:160px;height:120px;border-radius:12px;object-fit:cover}
+
+    /* Search & Filters */
+    .filters{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .input,select{padding:10px 12px;border-radius:10px;border:1px solid #e6e9ef}
+
+    /* Grid of properties */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:18px}
+    .card{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(16,24,40,0.06);display:flex;flex-direction:column}
+    .card img{width:100%;height:180px;object-fit:cover}
+    .card-body{padding:14px;flex:1;display:flex;flex-direction:column}
+    .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .title{font-weight:700}
+    .price{color:var(--primary);font-weight:700}
+    .tags{display:flex;gap:8px;margin-top:8px}
+    .tag{padding:6px 8px;border-radius:8px;font-size:12px;background:#f1f5f9}
+    .actions{margin-top:auto;display:flex;gap:8px}
+    .btn.ghost{background:transparent;border:1px solid #e6e9ef;color:var(--primary)}
+
+    /* Featured carousel */
+    .featured{margin-top:22px;padding:14px;background:linear-gradient(180deg,#fff,#fcfdff);border-radius:12px}
+    .carousel{display:flex;gap:12px;overflow:auto;padding-bottom:6px}
+    .carousel .feat{min-width:320px;border-radius:12px;overflow:hidden;box-shadow:0 6px 20px rgba(16,24,40,0.06)}
+    .carousel img{width:100%;height:180px;object-fit:cover}
+
+    /* Contact */
+    section.contact{padding:36px 20px}
+    .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    .contact-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(16,24,40,0.06)}
+    label{display:block;margin:10px 0 6px;font-weight:600}
+    textarea{min-height:120px}
+
+    /* Footer */
+    footer{padding:22px 20px;margin-top:24px}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:12px}
+
+    /* Modal */
+    .modal-back{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;padding:24px}
+    .modal{background:#fff;border-radius:12px;max-width:920px;width:100%;overflow:hidden}
+    .modal .modal-body{display:flex;gap:18px}
+    .gallery{flex:1}
+    .modal-info{flex:1;padding:18px}
+
+    @media(max-width:880px){
+      .hero-row{flex-direction:column;align-items:flex-start}
+      .contact-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <div class="hero-row">
+        <div class="hero-text">
+          <div class="brand">
+            <img src="https://images.unsplash.com/photo-1565372911489-6d5e1b0e6b44?auto=format&fit=crop&w=200&q=60" alt="logo" style="width:56px;height:56px;border-radius:10px;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,0.18)">
+            <div>
+              <h1>Inmuebles León MX</h1>
+              <div class="tagline">Tu patrimonio, nuestra prioridad — Asesores en León, Gto.</div>
+            </div>
+          </div>
+          <p style="opacity:0.95;margin-top:14px;max-width:680px">Somos un equipo de asesores inmobiliarios con profundo conocimiento del mercado de León, Guanajuato. Acompañamos a compradores, vendedores e inversionistas con procesos claros, transparencia y atención personalizada.</p>
+          <div class="cta">
+            <button class="btn" onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">Explorar propiedades</button>
+            <button class="btn secondary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contáctanos</button>
+          </div>
+          <div class="filters" style="margin-top:20px">
+            <input id="searchInput" class="input" placeholder="Buscar por colonia, palabra clave...">
+            <select id="typeFilter" class="input">
+              <option value="all">Tipo: Todos</option>
+              <option value="Casa">Casa</option>
+              <option value="Departamento">Departamento</option>
+              <option value="Terreno">Terreno</option>
+              <option value="Local">Local</option>
+            </select>
+            <select id="operationFilter" class="input">
+              <option value="all">Operación: Todos</option>
+              <option value="Venta">Venta</option>
+              <option value="Renta">Renta</option>
+            </select>
+            <select id="priceFilter" class="input">
+              <option value="all">Precio: Todos</option>
+              <option value="0-1000000">Hasta $1,000,000</option>
+              <option value="1000001-3000000">$1,000,001 - $3,000,000</option>
+              <option value="3000001-7000000">$3,000,001 - $7,000,000</option>
+              <option value="7000001-999999999">Más de $7,000,000</option>
+            </select>
+          </div>
+        </div>
+        <div style="width:360px;">
+          <div class="about-card">
+            <div class="about-text">
+              <h3>Sobre nosotros</h3>
+              <p style="margin:6px 0 0;color:var(--muted)">Equipo con +10 años en el mercado local. Ofrecemos asesoría legal, valuación y gestión hipotecaria. Atención personalizada en cada etapa.</p>
+              <div style="margin-top:10px;display:flex;gap:8px">
+                <img class="team-photo" src="https://images.unsplash.com/photo-1580894908361-4a7f2ff442d8?auto=format&fit=crop&w=400&q=60" alt="equipo">
+                <div style="display:flex;flex-direction:column;justify-content:center">
+                  <strong>Contacto</strong>
+                  <span style="color:var(--muted)">Av. Universidad 123, León, Gto.</span>
+                  <a href="mailto:contacto@inmueblesleon.mx" style="margin-top:6px;display:inline-block">contacto@inmueblesleon.mx</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="catalog" style="padding:26px 0">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <h2>Inventario de propiedades</h2>
+        <div style="color:var(--muted)">Resultados: <span id="count">0</span></div>
+      </div>
+
+      <div id="grid" class="grid"></div>
+
+      <div class="featured">
+        <h3>Propiedades destacadas</h3>
+        <div class="carousel" id="carousel"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>Contáctanos</h2>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <p>¿Listo para ver propiedades o necesitas asesoría personalizada? Completa el formulario y uno de nuestros asesores te contactará en breve.</p>
+          <form id="contactForm" onsubmit="event.preventDefault();sendContact()">
+            <label for="name">Nombre</label>
+            <input id="name" class="input" required>
+            <label for="email">Correo</label>
+            <input id="email" class="input" type="email" required>
+            <label for="phone">Teléfono / WhatsApp</label>
+            <input id="phone" class="input" required>
+            <label for="message">Mensaje</label>
+            <textarea id="message" class="input"></textarea>
+            <div style="margin-top:12px;display:flex;gap:8px">
+              <button class="btn" type="submit">Enviar mensaje</button>
+              <a class="btn ghost" href="tel:+524612345678">Llamar/WhatsApp</a>
+            </div>
+          </form>
+        </div>
+
+        <div>
+          <div class="contact-card">
+            <h4>Nuestra oficina</h4>
+            <p style="color:var(--muted)">Av. Universidad 123, Col. Centro, León, Guanajuato</p>
+            <iframe src="https://www.google.com/maps?q=Le%C3%B3n%2C+Guanajuato&output=embed" style="width:100%;height:240px;border:0;border-radius:8px;margin-top:8px"></iframe>
+            <div style="margin-top:12px">
+              <strong>Tel:</strong> <a href="tel:+524612345678">+52 461 234 5678</a><br>
+              <strong>Email:</strong> <a href="mailto:contacto@inmueblesleon.mx">contacto@inmueblesleon.mx</a>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;text-align:center;color:var(--muted)">
+            <small>Síguenos: <a href="#">Facebook</a> • <a href="#">Instagram</a> • <a href="#">LinkedIn</a></small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <strong>Inmuebles León MX</strong>
+        <div style="color:var(--muted)">© " + new Date().getFullYear() + " Todos los derechos reservados</div>
+      </div>
+      <div style="color:var(--muted)">| <a href="#">Aviso de privacidad</a> |</div>
+    </div>
+  </footer>
+
+  <!-- Modal detalle propiedad -->
+  <div id="modalBack" class="modal-back">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-body">
+        <div class="gallery" id="modalGallery">
+          <!-- imagenes -->
+        </div>
+        <div class="modal-info" id="modalInfo">
+          <!-- info -->
+        </div>
+      </div>
+      <div style="padding:14px;text-align:right;background:#fbfdff">
+        <button class="btn" onclick="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Datos de ejemplo (puedes reemplazarlos por tu backend)
+    const properties = [
+      {
+        id:1,
+        title:'Casa amplia en Zona Norte',
+        description:'Casa de 3 recámaras, 2 baños, jardín, acabados modernos.',
+        price:2800000,
+        operation:'Venta',
+        type:'Casa',
+        images:[
+          'https://images.unsplash.com/photo-1560184897-6c1f3c1b9e4f?auto=format&fit=crop&w=1200&q=60',
+          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=60'
+        ],
+        address:'Col. Jardines del Moral, León'
+      },
+      {
+        id:2,
+        title:'Departamento céntrico moderno',
+        description:'Departamento 2 hab, 1 baño, balcón con vista a la ciudad.',
+        price:1350000,
+        operation:'Venta',
+        type:'Departamento',
+        images:['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=60'],
+        address:'Col. Centro, León'
+      },
+      {
+        id:3,
+        title:'Local comercial sobre avenida',
+        description:'Local en esquina con alto flujo peatonal, ideal para tienda o cafetería.',
+        price:4500000,
+        operation:'Venta',
+        type:'Local',
+        images:['https://images.unsplash.com/photo-1542736667-069246bdbc15?auto=format&fit=crop&w=1200&q=60'],
+        address:'Av. Universidad, León'
+      },
+      {
+        id:4,
+        title:'Terreno residencial',
+        description:'Terreno de 350 m² listo para construir en privada.',
+        price:900000,
+        operation:'Venta',
+        type:'Terreno',
+        images:['https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=60'],
+        address:'Zona Rural, León'
+      },
+      {
+        id:5,
+        title:'Departamento en renta - Amueblado',
+        description:'Departamento amueblado, 1 recámara, cerca de universidades.',
+        price:8500,
+        operation:'Renta',
+        type:'Departamento',
+        images:['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=60'],
+        address:'Zona Universitaria, León'
+      }
+    ];
+
+    // Render
+    const grid = document.getElementById('grid');
+    const carousel = document.getElementById('carousel');
+    const count = document.getElementById('count');
+
+    function formatPrice(n){
+      if(n < 100000) return `$${n}`;
+      // si es renta asumimos mensual
+      if(n < 200000) return `$${n.toLocaleString('es-MX')} / mes`;
+      return `$${n.toLocaleString('es-MX')}`;
+    }
+
+    function renderCards(list){
+      grid.innerHTML = '';
+      list.forEach(p=>{
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+          <img src="${p.images[0]}" alt="${p.title}">
+          <div class="card-body">
+            <div class="meta">
+              <div class="title">${p.title}</div>
+              <div class="price">${formatPrice(p.price)}</div>
+            </div>
+            <div style="color:var(--muted);font-size:14px">${p.address}</div>
+            <p style="margin:10px 0 0;color:var(--muted);font-size:14px">${p.description}</p>
+            <div class="tags">
+              <div class="tag">${p.type}</div>
+              <div class="tag">${p.operation}</div>
+            </div>
+            <div class="actions">
+              <button class="btn" onclick="openModal(${p.id})">Ver detalles</button>
+              <button class="btn ghost" onclick="contactFor(${p.id})">Contactar</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(div);
+      });
+      count.textContent = list.length;
+    }
+
+    function renderCarousel(list){
+      carousel.innerHTML = '';
+      const featured = list.slice(0,4);
+      featured.forEach(p=>{
+        const f = document.createElement('div');
+        f.className = 'feat';
+        f.innerHTML = `
+          <img src="${p.images[0]}" alt="${p.title}">
+          <div style="padding:10px">
+            <div style="font-weight:700">${p.title}</div>
+            <div style="color:var(--muted);font-size:14px">${p.address}</div>
+          </div>
+        `;
+        carousel.appendChild(f);
+      });
+    }
+
+    // filtros
+    const searchInput = document.getElementById('searchInput');
+    const typeFilter = document.getElementById('typeFilter');
+    const operationFilter = document.getElementById('operationFilter');
+    const priceFilter = document.getElementById('priceFilter');
+
+    function applyFilters(){
+      const q = searchInput.value.trim().toLowerCase();
+      const type = typeFilter.value;
+      const op = operationFilter.value;
+      const price = priceFilter.value;
+
+      let filtered = properties.filter(p=>{
+        if(type !== 'all' && p.type !== type) return false;
+        if(op !== 'all' && p.operation !== op) return false;
+        if(q && !(p.title.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || p.address.toLowerCase().includes(q))) return false;
+        if(price !== 'all'){
+          const [min,max] = price.split('-').map(Number);
+          if(p.price < min || p.price > max) return false;
+        }
+        return true;
+      });
+      renderCards(filtered);
+    }
+
+    [searchInput,typeFilter,operationFilter,priceFilter].forEach(el=>el.addEventListener('input',applyFilters));
+
+    // Modal
+    const modalBack = document.getElementById('modalBack');
+    function openModal(id){
+      const prop = properties.find(p=>p.id===id);
+      if(!prop) return;
+      const gallery = document.getElementById('modalGallery');
+      const info = document.getElementById('modalInfo');
+      gallery.innerHTML = '';
+      prop.images.forEach(src=>{
+        const img = document.createElement('img');
+        img.src = src;
+        img.style.width = '100%';
+        img.style.height = '320px';
+        img.style.objectFit = 'cover';
+        gallery.appendChild(img);
+      });
+      info.innerHTML = `
+        <h3>${prop.title}</h3>
+        <div style="color:var(--muted)">${prop.address}</div>
+        <div style="margin-top:12px;font-weight:700">${formatPrice(prop.price)}</div>
+        <p style="margin-top:12px;color:var(--muted)">${prop.description}</p>
+        <div style="margin-top:12px">Tipo: <strong>${prop.type}</strong> • Operación: <strong>${prop.operation}</strong></div>
+        <div style="margin-top:18px;display:flex;gap:8px">
+          <button class="btn" onclick="contactFor(${prop.id})">Contactar asesor</button>
+          <button class="btn ghost" onclick="closeModal()">Cerrar</button>
+        </div>
+      `;
+      modalBack.style.display = 'flex';
+    }
+    function closeModal(){ modalBack.style.display = 'none'; }
+
+    function contactFor(id){
+      const p = properties.find(x=>x.id===id);
+      document.getElementById('message').value = `Estoy interesado en: ${p.title} (ID ${p.id}). Por favor contáctenme.`;
+      document.getElementById('name').scrollIntoView({behavior:'smooth'});
+    }
+
+    // Envío de formulario (simulación)
+    function sendContact(){
+      const n = document.getElementById('name').value;
+      const e = document.getElementById('email').value;
+      const ph = document.getElementById('phone').value;
+      const msg = document.getElementById('message').value;
+      alert(`Gracias ${n}. Hemos recibido tu mensaje.\n\nResumen:\nCorreo: ${e}\nTel: ${ph}\nMensaje: ${msg}`);
+      document.getElementById('contactForm').reset();
+    }
+
+    // inicializar
+    renderCards(properties);
+    renderCarousel(properties);
+    applyFilters();
+  </script>
+</body>
+</html>
