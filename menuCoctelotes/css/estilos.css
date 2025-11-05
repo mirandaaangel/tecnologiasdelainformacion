@@ -1,0 +1,280 @@
+
+:root {
+    --color-primary: #387679;
+    --color-accent-maize: #FFC300;
+    --color-background-light: #F8F8F8;
+    --color-card-bg: #FFFFFF;
+    --font-heading: 'Georgia', serif;
+    --font-body: 'Arial', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-background-light);
+    color: #333;
+    line-height: 1.6;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--color-primary);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header__logo-img {
+    height: 40px;
+    width: auto;
+}
+
+.header__nav {
+    display: flex;
+    gap: 15px;
+    text-decoration: none;
+}
+
+.header__icon {
+    font-size: 1.4rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+.hero__image-container {
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero__slogan {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    font-size: 1.8rem;
+    font-family: var(--font-heading);
+    border-radius: 5px;
+}
+
+
+.product-image {
+    width: 100%; 
+    max-width: 400px; 
+    height: auto;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: 0 auto 20px auto;
+    display: block;
+}
+
+.nav-anchors {
+    display: flex;
+     overflow-x: auto;
+     padding: 10px 20px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+     white-space: nowrap;
+    gap: 10px; 
+}
+
+.nav-anchors__item {
+    /* 1. Quitamos la línea de los links */
+    text-decoration: none; 
+    
+    /* 2. Estilos de caja/cuadro */
+    color: var(--color-primary); /* Color de texto predeterminado */
+    border: 2px solid var(--color-primary); /* Borde primario */
+    padding: 8px 12px; /* Relleno interior */
+    border-radius: 20px; /* Bordes redondeados para un look más suave */
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: inline-block; 
+    transition: all 0.2s ease-in-out; 
+    
+    flex-shrink: 0; 
+}
+
+/* Efecto HOVER y FOCUS */
+.nav-anchors__item:hover,
+.nav-anchors__item:focus {
+    background-color: var(--color-primary); /* Fondo del color primario */
+    color: var(--color-accent-maize); /* Texto en color Maíz/Accent */
+    border-color: var(--color-accent-maize); /* Borde resalta en color Maíz */
+    box-shadow: 0 4px 8px rgba(56, 118, 121, 0.3); /* Sombra sutil */
+}
+
+.menu-container {
+    padding: 20px;
+    display: grid;
+    gap: 25px;
+}
+
+.menu-section {
+    background-color: var(--color-card-bg);
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.menu-section__title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--color-primary);
+    margin-bottom: 5px;
+}
+
+.menu-section__subtitle {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 10px;
+}
+
+.product-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 5px;
+}
+
+.product-card__price {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: var(--color-accent-maize);
+}
+
+.coctelote-table__header,
+.coctelote-table__row {
+    display: grid;
+    grid-template-columns: 1fr repeat(3, 1.2fr);
+    text-align: center;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+@media (min-width: 768px) {
+
+    .menu-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto auto auto; 
+        grid-template-areas:
+            "elote elote"
+            "coctelote tostielote"
+            "charola charola";
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .menu-section--elote {
+        grid-area: elote;
+        grid-column: 1 / -1; 
+        grid-row: 1;
+    }
+
+    .menu-section--coctelote {
+        grid-area: coctelote;
+        grid-column: 1 / 2; 
+        grid-row: 2;
+    }
+
+    .menu-section--tostielote {
+        grid-area: tostielote;
+        grid-column: 2 / 3;
+        grid-row: 2;
+    }
+
+    .menu-section--charola {
+        grid-area: charola;
+        grid-column: 1 / -1; 
+        grid-row: 3;
+    }
+}
+    
+.footer {
+    /* Usamos el color principal de fondo */
+    background-color: var(--color-primary);
+    color: white;
+    padding: 15px 15px;
+    text-align: center;
+    /* Línea de acento arriba */
+    border-top: 5px solid var(--color-accent-maize);
+}
+
+.footer__social-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Aumentamos el espacio entre iconos */
+    margin-bottom: 10px;
+}
+
+.social-icon {
+    /* Estilos base del icono */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px; 
+    height: 50px;
+    font-size: 2rem; /* Icono un poco más grande */
+    text-decoration: none;
+    background-color: white; 
+    border-radius: 50%; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición más viva */
+}
+
+.social-icon:hover {
+    transform: translateY(-5px) scale(1.1); /* Efecto "pop" al pasar el ratón */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Sombra más profunda */
+    opacity: 0.9;
+}
+
+/* Colores específicos de la marca o de las redes para los fondos (Usando color de acento como borde) */
+.social-icon--facebook { 
+    background-color: var(--color-card-bg); /* Blanco */
+    border: 2px solid #3b5998; /* Borde azul de Facebook */
+    color: #3b5998; /* Icono azul */
+    font-size: 1.4rem; 
+}
+.social-icon--instagram { 
+    background-color: var(--color-card-bg); /* Blanco */
+    border: 2px solid #E1306C; /* Borde rosa de Instagram */
+    color: #E1306C; /* Icono rosa */
+    font-size: 1.4rem; 
+}
+.social-icon--whatsapp { 
+    background-color: var(--color-card-bg); /* Blanco */
+    border: 2px solid #25D366; /* Borde verde de WhatsApp */
+    color: #25D366; /* Icono verde */
+    font-size: 1.4rem; 
+}
+
+.footer__copyright {
+    font-size: 0.85rem;
+    opacity: 0.8; /* Lo hicimos un poco más visible */
+    margin-top: 15px;
+} 
