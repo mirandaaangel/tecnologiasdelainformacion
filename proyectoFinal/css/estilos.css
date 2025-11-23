@@ -1,0 +1,73 @@
+/* ------------------------------------------- */
+/* Estilos Customizados para Inmobiliaria        */
+/* ------------------------------------------- */
+
+/* Importar la fuente Inter (compatible con el ecosistema moderno) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+/* Reglas CSS para el body y la fuente, complementando el <style> en el HTML */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Estilo específico para los enlaces de navegación */
+.nav-link {
+    color: var(--color-primary); /* Azul oscuro/Negro */
+    font-weight: 500;
+    transition: color 0.3s ease;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+/* Efecto de subrayado sutil al pasar el mouse */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-secondary); /* Dorado/Marrón de acento */
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Estilo para la sección Hero para asegurar la superposición del fondo */
+.hero-section {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+/* Overlay para oscurecer la imagen de fondo del Hero y mejorar la legibilidad del texto blanco */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Sombra oscura */
+    z-index: 0;
+}
+
+/* Asegurar que el contenido del formulario de búsqueda esté por encima del overlay */
+.hero-section .search-form-container {
+    position: relative;
+    z-index: 10;
+}
+
+/* Estilo de las tarjetas de propiedad para mejor visualización */
+.property-card {
+    cursor: pointer;
+    border-radius: 0.75rem; /* rounded-xl de Tailwind */
+}
+
+/* Asegurar el contraste de los íconos de propiedad */
+.property-card svg {
+    color: #9ca3af; /* Gris sutil para íconos */
+}
