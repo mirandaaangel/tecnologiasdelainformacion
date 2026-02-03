@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Polaroid Studio Pro - Responsive Fixed</title>
+    <style>
+        :root {
+            --paper-width: 215.9mm;
+            --paper-height: 279.4mm;
+            --margin-hoja: 8mm; /* Reducido un poco para mayor margen de error */
+            --polaroid-bg: #ffffff;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            -webkit-print-color-adjust: exact; /* Fuerza colores en iOS/Safari */
+        }
+
+        body {
+            background-color: #1a1a1a;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- UI MODERNA --- */
+        .ui-header {
+            background: #ffffff;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-print { background: #007aff; color: white; }
+        .btn-clear { background: #ff3b30; color: #fff; }
+
+        /* --- CONTENEDOR DE PÁGINAS --- */
+        #pagesContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        /* --- HOJA CARTA (FIXED) --- */
+        .paper {
+            width: var(--paper-width);
+            height: var(--paper-height);
+            background: white;
+            padding: var(--margin-hoja);
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            page-break-after: always;
+            overflow: hidden;
+            display: block;
+            flex-shrink: 0; /* Evita que el iPhone la "aplane" */
+        }
+
+        /* Grid Forzado 3x3 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 5mm; 
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Polaroid Estilo con Aspect Ratio */
+        .polaroid {
+            background: white;
+            border: 0.2mm solid #eee;
+            padding: 6px 6px 20px 6px; 
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%; /* Forzado al tamaño de la celda */
+            overflow: hidden;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #f0f0f0;
+        }
+
+        /* --- MÓVIL: ESCALADO DE PREVISUALIZACIÓN --- */
+        @media (max-width: 220mm) {
+            /* En móviles, escalamos la visualización para que quepa en pantalla 
+               pero mantenemos las medidas reales para la impresora */
+            .paper {
+                transform: scale(0.4); /* Escala la hoja para verla en iPhone */
+                transform-origin: top center;
+                margin-bottom: -150mm; /* Compensa el espacio del escalado */
+            }
+        }
+
+        /* --- AJUSTES DE IMPRESIÓN --- */
+        @media print {
+            body { background: white !important; }
+            .ui-header { display: none !important; }
+            #pagesContainer { padding: 0 !important; gap: 0 !important; }
+            .paper {
+                margin: 0 !important;
+                box-shadow: none !important;
+                transform: scale(1) !important; /* Reset del escalado móvil */
+            }
+            @page {
+                size: letter;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="ui-header">
+        <h2 style="margin:0; font-size: 18px;">Polaroid Studio 3x3</h2>
+        <div class="controls">
+            <input type="file" id="imageInput" accept="image/*" multiple>
+            <div class="btn-group">
+                <button class="btn btn-print" onclick="window.print()">Imprimir Todo</button>
+                <button class="btn btn-clear" onclick="clearAll()">Limpiar</button>
+            </div>
+        </div>
+    </header>
+
+    <div id="pagesContainer">
+        </div>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const pagesContainer = document.getElementById('pagesContainer');
+
+        imageInput.addEventListener('change', async function() {
+            const files = Array.from(this.files);
+            if (files.length === 0) return;
+
+            for (let i = 0; i < files.length; i += 9) {
+                const chunk = files.slice(i, i + 9);
+                await createPage(chunk);
+            }
+            imageInput.value = '';
+        });
+
+        async function createPage(images) {
+            const paper = document.createElement('div');
+            paper.className = 'paper';
+            
+            const grid = document.createElement('div');
+            grid.className = 'grid-container';
+            
+            const promises = images.map(file => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const polaroid = document.createElement('div');
+                        polaroid.className = 'polaroid';
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        polaroid.appendChild(img);
+                        resolve(polaroid);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            const polaroids = await Promise.all(promises);
+            polaroids.forEach(p => grid.appendChild(p));
+            
+            paper.appendChild(grid);
+            pagesContainer.appendChild(paper);
+        }
+
+        function clearAll() {
+            if (confirm('¿Borrar todo?')) {
+                pagesContainer.innerHTML = '';
+            }
+        }
+    </script>
+</body>
+</html>
