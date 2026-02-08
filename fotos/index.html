@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Polaroid Pro PDF - iPhone 15 Pro Fix</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        :root {
+            /* Medidas exactas calculadas para evitar desbordamientos */
+            --p-width: 215.9mm;
+            --p-height: 279.4mm;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: #121212;
+            font-family: -apple-system, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+
+        /* --- INTERFAZ IPHONE --- */
+        .header-ui {
+            background: rgba(255, 255, 255, 0.98);
+            width: 100%;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            text-align: center;
+            border-bottom: 0.5px solid #333;
+            color: #000;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            font-size: 15px;
+            flex: 1;
+            max-width: 160px;
+        }
+
+        .btn-primary { background: #007aff; color: white; }
+        .btn-secondary { background: #e5e5ea; color: #ff3b30; }
+
+        /* --- ÁREA DE RENDERIZADO (EL SECRETO DEL FIX) --- */
+        #main-wrapper {
+            width: 100%;
+            overflow-x: auto; /* Permite scroll horizontal si es necesario en preview */
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Forzamos el ancho de escritorio para que Safari no rompa las columnas */
+        #pdf-content {
+            width: var(--p-width);
+            background: transparent;
+        }
+
+        .paper-page {
+            width: var(--p-width);
+            height: var(--p-height);
+            background: white;
+            padding: 12mm;
+            margin-bottom: 20px;
+            display: block;
+            page-break-after: always;
+        }
+
+        /* Cuadrícula Estricta 3x3 */
+        .grid-3x3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8mm;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Estilo Polaroid */
+        .polaroid-card {
+            background: white;
+            border: 0.1mm solid #ddd;
+            padding: 8px 8px 30px 8px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+
+        .polaroid-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #eee;
+        }
+
+        /* Preview en el iPhone sin romper el PDF */
+        @media screen and (max-width: 600px) {
+            #main-wrapper {
+                transform: scale(0.4);
+                transform-origin: top center;
+                margin-bottom: -400px; /* Compensar espacio vacío por el scale */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-ui">
+        <h2 style="margin:0">Polaroid Studio 3x3</h2>
+        <input type="file" id="files" accept="image/*" multiple style="margin-top:10px; width: 100%; max-width: 300px;">
+        <div class="btn-container">
+            <button class="btn btn-primary" onclick="downloadPDF()">Descargar PDF</button>
+            <button class="btn btn-secondary" onclick="location.reload()">Limpiar</button>
+        </div>
+    </header>
+
+    <div id="main-wrapper">
+        <div id="pdf-content">
+            </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('files');
+        const pdfContent = document.getElementById('pdf-content');
+
+        fileInput.addEventListener('change', async (e) => {
+            const files = Array.from(e.target.files);
+            pdfContent.innerHTML = ''; 
+
+            for (let i = 0; i < files.length; i += 9) {
+                const chunk = files.slice(i, i + 9);
+                createSheet(chunk);
+            }
+        });
+
+        function createSheet(images) {
+            const page = document.createElement('div');
+            page.className = 'paper-page';
+            
+            const grid = document.createElement('div');
+            grid.className = 'grid-3x3';
+            
+            images.forEach(file => {
+                const card = document.createElement('div');
+                card.className = 'polaroid-card';
+                
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                
+                card.appendChild(img);
+                grid.appendChild(card);
+            });
+
+            page.appendChild(grid);
+            pdfContent.appendChild(page);
+        }
+
+        function downloadPDF() {
+            if (pdfContent.children.length === 0) return alert("Sube fotos primero");
+
+            const opt = {
+                margin: 0,
+                filename: 'polaroids_iphone.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 3, // Alta resolución
+                    useCORS: true,
+                    logging: false,
+                    width: 816, // Ancho forzado de hoja carta en pixeles
+                },
+                jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(pdfContent).save();
+        }
+    </script>
+</body>
+</html>
